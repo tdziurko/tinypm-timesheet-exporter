@@ -26,6 +26,8 @@
             <artifactId>resteasy-jaxb-provider</artifactId>
             <version>1.2.GA</version>
         </dependency>
+
+
     </dependencies>
 
 

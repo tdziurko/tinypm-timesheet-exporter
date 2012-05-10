@@ -1,11 +1,14 @@
 package com.google.code.tinypmclient;
 
-import java.util.List;
-
 import com.google.code.tinypmclient.internal.ActiveResource;
 import com.google.code.tinypmclient.internal.ClientFactory;
 import com.google.code.tinypmclient.internal.ClientResponseHandler;
 import com.google.code.tinypmclient.internal.builder.UserStoryBuilder;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Represents a starting point to configure and call tinyPM's REST resources.
@@ -18,7 +21,7 @@ public class TinyPM extends ActiveResource {
 	 * authentication token.
 	 * 
 	 * @param url remote tinyPM address
-	 * @param toke authentication token that has been generated in remote tinyPM
+	 * @param token authentication token that has been generated in remote tinyPM
 	 */
 	public TinyPM(String url, String token) {
 		// init default client factory and response handler
@@ -99,6 +102,22 @@ public class TinyPM extends ActiveResource {
 	public Project getProject(int projectId) {
 		return handle(clientFactory.getProjects().getProject(projectId));
 	}
+
+
+    public Project getProject(final String code) {
+        List<Project> projects = handle(clientFactory.getProjects().getAllProject());
+
+        Project project = Iterables.find(projects, new Predicate<Project>() {
+            @Override
+            public boolean apply(@Nullable Project project) {
+                return project.getCode().equals(code);
+            }
+        });
+
+        return project;
+    }
+
+
 	
 	/**
 	 * Fetch all tinyPM projects.
