@@ -16,12 +16,12 @@
 
 
     <dependencies>
-          <dependency>
+        <dependency>
+            <groupId>pl.softwaremill</groupId>
+            <artifactId>tinypm-rest</artifactId>
+            <version>1.0</version>
+        </dependency>
 
-              <groupId>pl.softwaremill</groupId>
-              <artifactId>tinypm-rest</artifactId>
-              <version>1.0</version>
-          </dependency>
 
     </dependencies>
 </project>
