@@ -1,6 +1,7 @@
 package com.google.code.tinypmclient;
 
 import com.google.code.tinypmclient.internal.ActiveResource;
+import com.google.code.tinypmclient.internal.Activity;
 import com.google.code.tinypmclient.internal.ClientFactory;
 import com.google.code.tinypmclient.internal.ClientResponseHandler;
 import com.google.code.tinypmclient.internal.builder.UserStoryBuilder;
@@ -130,5 +131,9 @@ public class TinyPM extends ActiveResource {
 
     public List<Iteration> getAllIterations(Project project) {
         return handle(clientFactory.getIterations().getAllIterations(project.getId()));
+    }
+
+    public List<Activity> getTimesheetForIteration(int iterationId) {
+        return handle(clientFactory.getTimesheets().getTimesheetForIteration(iterationId));
     }
 }
