@@ -2,6 +2,7 @@ package com.google.code.tinypmclient;
 
 import com.google.code.tinypmclient.internal.ActiveResource;
 import com.google.code.tinypmclient.internal.binding.DateAdapter;
+import org.joda.time.DateTime;
 
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -84,5 +85,10 @@ public class Iteration extends ActiveResource {
     public void setDuration(int duration) {
         this.duration = duration;
     }
+
+    public Date getCalculatedEndDate() {
+        return new DateTime(getStartDate()).plusDays(getDuration() - 1).toDate();
+    }
+
 
 }
