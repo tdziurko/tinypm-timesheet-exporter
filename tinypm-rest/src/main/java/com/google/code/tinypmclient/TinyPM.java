@@ -106,6 +106,12 @@ public class TinyPM extends ActiveResource {
     }
 
 
+    /**
+     * Fetch project having a given coded
+     *
+     * @param code the project code
+     * @return project with given code or null if doesn't exist
+     */
     public Project getProject(final String code) {
         List<Project> projects = handle(clientFactory.getProjects().getAllProject());
 
@@ -114,7 +120,7 @@ public class TinyPM extends ActiveResource {
             public boolean apply(@Nullable Project project) {
                 return project.getCode().equals(code);
             }
-        });
+        }, null);
 
         return project;
     }
