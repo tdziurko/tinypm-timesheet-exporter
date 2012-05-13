@@ -16,13 +16,16 @@ public class ExporterSettings {
     private List<String> projectCodes;
 
     @Parameter(names = "-year", description = "Year of timesheet", required = true)
-    private int year;
+    private Integer year;
 
-    @Parameter(names = "-month", description = "Number of month (1-12) for timesheet", required = true)
-    private int month;
+    @Parameter(names = "-month", description = "Number of month (1-12) for timesheet", required = true, validateWith = MonthValidator.class)
+    private Integer month;
 
     @Parameter(names = "-user", description = "User's timesheet", required = false)
     private String user;
+
+    @Parameter(names = "-output", description = "Report output format", required = true, converter = OutputConverter.class)
+    private OutputEnum output;
 
 
     public String getTinypmUrl() {
@@ -37,15 +40,19 @@ public class ExporterSettings {
         return projectCodes;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public int getMonth() {
+    public Integer getMonth() {
         return month;
     }
 
     public String getUser() {
         return user;
+    }
+
+    public OutputEnum getOutput() {
+        return output;
     }
 }
