@@ -15,12 +15,12 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 
-public class DataCollector {
+public class TinyPMDataCollector {
 
     protected TinyPM tinyPM;
     private ExporterSettings settings;
 
-    public DataCollector(ExporterSettings settings) {
+    public TinyPMDataCollector(ExporterSettings settings) {
 
         this.settings = settings;
         tinyPM = new TinyPM(settings.getTinypmUrl(), settings.getAuthenticationToken());

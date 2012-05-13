@@ -16,16 +16,16 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class DataCollectorShould {
+public class TinyPMDataCollectorShould {
 
-    private DataCollector dataCollector;
+    private TinyPMDataCollector dataCollector;
     private TinyPM tinyPmMock;
 
     @BeforeMethod
     public void init() {
         tinyPmMock = mock(TinyPM.class);
 
-        dataCollector = new DataCollector(new ExporterSettings());
+        dataCollector = new TinyPMDataCollector(new ExporterSettings());
         dataCollector.tinyPM = tinyPmMock;
     }
 
