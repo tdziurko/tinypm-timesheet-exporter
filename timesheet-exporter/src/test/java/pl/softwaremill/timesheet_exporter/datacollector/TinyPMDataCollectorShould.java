@@ -33,7 +33,7 @@ public class TinyPMDataCollectorShould {
     @Test(dataProvider = "dateRangesProvider")
     public void checkIfIterationIsInGivenMonth(int startYear, int startMonth, int endyear, int endMonth, int yearToCheck, int monthToCheck, boolean expectedResult) {
         // given
-        Iteration iteration = prepareIterationInMonths(startYear, startMonth, endyear, endMonth);
+        IterationInProject iteration = prepareIterationInMonths(startYear, startMonth, endyear, endMonth);
 
         // when
         boolean result = dataCollector.iterationIsInAGivenYearAndMonth(iteration, yearToCheck, monthToCheck);
@@ -57,13 +57,13 @@ public class TinyPMDataCollectorShould {
         };
     }
 
-    private Iteration prepareIterationInMonths(int startYear, int startMonth, int endYear, int endMonth) {
+    private IterationInProject prepareIterationInMonths(int startYear, int startMonth, int endYear, int endMonth) {
 
         DateTime startDate = new DateTime().withDate(startYear, startMonth, 1);
         DateTime endDate = new DateTime().withDate(endYear, endMonth, 1);
 
         int duration = Days.daysBetween(startDate, endDate).getDays();
-        Iteration iteration = new Iteration();
+        IterationInProject iteration = new IterationInProject(new Iteration(), null);
         iteration.setStartDate(startDate.toDate());
         iteration.setDuration(duration + 1);
 
