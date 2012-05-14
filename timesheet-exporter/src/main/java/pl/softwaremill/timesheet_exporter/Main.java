@@ -2,6 +2,7 @@ package pl.softwaremill.timesheet_exporter;
 
 import com.beust.jcommander.JCommander;
 import com.google.code.tinypmclient.internal.Activity;
+import pl.softwaremill.timesheet_exporter.datacollector.TinyPMDataCollector;
 import pl.softwaremill.timesheet_exporter.transform.ActivityTransformer;
 
 import java.util.Collection;

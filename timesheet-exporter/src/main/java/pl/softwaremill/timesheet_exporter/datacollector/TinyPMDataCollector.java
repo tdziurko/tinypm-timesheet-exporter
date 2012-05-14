@@ -1,4 +1,4 @@
-package pl.softwaremill.timesheet_exporter;
+package pl.softwaremill.timesheet_exporter.datacollector;
 
 import com.google.code.tinypmclient.Iteration;
 import com.google.code.tinypmclient.Project;
@@ -10,6 +10,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import org.joda.time.DateTime;
+import pl.softwaremill.timesheet_exporter.ExporterSettings;
 
 import javax.annotation.Nullable;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package pl.softwaremill.timesheet_exporter;
+package pl.softwaremill.timesheet_exporter.datacollector;
 
 import com.google.code.tinypmclient.Iteration;
 import com.google.code.tinypmclient.Project;
@@ -8,6 +8,8 @@ import org.joda.time.Days;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import pl.softwaremill.timesheet_exporter.ExporterSettings;
+import pl.softwaremill.timesheet_exporter.datacollector.TinyPMDataCollector;
 
 import java.util.Arrays;
 import java.util.List;
