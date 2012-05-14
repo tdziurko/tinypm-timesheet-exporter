@@ -7,11 +7,11 @@ import pl.softwaremill.timesheet_exporter.datacollector.ActivityInIteration;
 
 import java.util.Collection;
 
-public class ActivityTransformer {
+public class DataTransfomer {
 
     private Collection<ActivityInIteration> activities;
 
-    public ActivityTransformer(Collection<ActivityInIteration> activities) {
+    public DataTransfomer(Collection<ActivityInIteration> activities) {
         this.activities = activities;
     }
 

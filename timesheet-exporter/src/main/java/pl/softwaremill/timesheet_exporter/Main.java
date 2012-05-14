@@ -4,7 +4,7 @@ import com.beust.jcommander.JCommander;
 import pl.softwaremill.timesheet_exporter.datacollector.ActivityInIteration;
 import pl.softwaremill.timesheet_exporter.datacollector.TinyPMDataCollector;
 import pl.softwaremill.timesheet_exporter.settings.ExporterSettings;
-import pl.softwaremill.timesheet_exporter.transform.ActivityTransformer;
+import pl.softwaremill.timesheet_exporter.transform.DataTransfomer;
 
 import java.util.Collection;
 
@@ -17,6 +17,6 @@ public class Main {
 
         Collection<ActivityInIteration> activities = new TinyPMDataCollector(exporterSettings).collectData();
 
-        new ActivityTransformer(activities).transform();
+        new DataTransfomer(activities).transform();
     }
 }
