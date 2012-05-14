@@ -8,8 +8,7 @@ import org.joda.time.Days;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import pl.softwaremill.timesheet_exporter.ExporterSettings;
-import pl.softwaremill.timesheet_exporter.datacollector.TinyPMDataCollector;
+import pl.softwaremill.timesheet_exporter.settings.ExporterSettings;
 
 import java.util.Arrays;
 import java.util.List;

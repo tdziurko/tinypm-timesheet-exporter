@@ -10,7 +10,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import org.joda.time.DateTime;
-import pl.softwaremill.timesheet_exporter.ExporterSettings;
+import pl.softwaremill.timesheet_exporter.settings.ExporterSettings;
 
 import javax.annotation.Nullable;
 import java.util.Collection;

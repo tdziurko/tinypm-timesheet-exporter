@@ -1,4 +1,4 @@
-package pl.softwaremill.timesheet_exporter;
+package pl.softwaremill.timesheet_exporter.settings;
 
 import com.beust.jcommander.Parameter;
 

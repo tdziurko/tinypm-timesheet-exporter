@@ -1,4 +1,4 @@
-package pl.softwaremill.timesheet_exporter;
+package pl.softwaremill.timesheet_exporter.settings;
 
 public enum OutputEnum {
 
