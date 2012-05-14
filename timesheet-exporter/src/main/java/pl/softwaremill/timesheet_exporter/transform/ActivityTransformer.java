@@ -1,17 +1,17 @@
 package pl.softwaremill.timesheet_exporter.transform;
 
 import com.google.code.tinypmclient.User;
-import com.google.code.tinypmclient.internal.Activity;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
+import pl.softwaremill.timesheet_exporter.datacollector.ActivityInIteration;
 
 import java.util.Collection;
 
 public class ActivityTransformer {
 
-    private Collection<Activity> activities;
+    private Collection<ActivityInIteration> activities;
 
-    public ActivityTransformer(Collection<Activity> activities) {
+    public ActivityTransformer(Collection<ActivityInIteration> activities) {
         this.activities = activities;
     }
 
@@ -21,7 +21,7 @@ public class ActivityTransformer {
         TreeMultimap<User, DataRow> timesheets = TreeMultimap.create(new UserNameComparator(), new DataRowComparator());
 
 
-        for (Activity activity : activities) {
+        for (ActivityInIteration activity : activities) {
 //            DataRow dataRow = new DataRow(activity.getUser().getName(), )
 //            timesheets.put(activity.)
         }

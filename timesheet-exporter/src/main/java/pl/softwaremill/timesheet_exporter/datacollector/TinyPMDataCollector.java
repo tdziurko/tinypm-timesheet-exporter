@@ -27,11 +27,11 @@ public class TinyPMDataCollector {
         tinyPM = new TinyPM(settings.getTinypmUrl(), settings.getAuthenticationToken());
     }
 
-    public Collection<Activity> collectData() {
+    public Collection<ActivityInIteration> collectData() {
 
         List<Project> projects = loadRequestedProjects(settings.getProjectCodes());
-        List<Iteration> allIterations = loadIterationsForProjects(projects);
-        Collection<Iteration> iterationsInGivenMonth = filterIterationsUsingYearAndMonth(allIterations);
+        List<IterationInProject> allIterations = loadIterationsForProjects(projects);
+        Collection<IterationInProject> iterationsInGivenMonth = filterIterationsUsingYearAndMonth(allIterations);
 
         return loadTimesheets(iterationsInGivenMonth);
     }
@@ -69,24 +69,28 @@ public class TinyPMDataCollector {
                 Joiner.on(", ").join(availableProjectCodes));
     }
 
-    private List<Iteration> loadIterationsForProjects(List<Project> projects) {
-        List<Iteration> allIterations = Lists.newArrayList();
+    private List<IterationInProject> loadIterationsForProjects(List<Project> projects) {
+        List<IterationInProject> allIterations = Lists.newArrayList();
         for (Project project : projects) {
-            allIterations.addAll(tinyPM.getAllIterations(project));
+
+            List<Iteration> iterationsFromProject = tinyPM.getAllIterations(project);
+            for (Iteration iteration : iterationsFromProject) {
+                allIterations.add(new IterationInProject(iteration, project));
+            }
         }
         return allIterations;
     }
 
-    private Collection<Iteration> filterIterationsUsingYearAndMonth(List<Iteration> allIterations) {
-        return Collections2.filter(allIterations, new Predicate<Iteration>() {
+    private Collection<IterationInProject> filterIterationsUsingYearAndMonth(List<IterationInProject> allIterations) {
+        return Collections2.filter(allIterations, new Predicate<IterationInProject>() {
             @Override
-            public boolean apply(@Nullable Iteration iteration) {
+            public boolean apply(@Nullable IterationInProject iteration) {
                 return iterationIsInAGivenYearAndMonth(iteration, settings.getYear(), settings.getMonth());
             }
         });
     }
 
-    protected boolean iterationIsInAGivenYearAndMonth(Iteration iteration, int year, int month) {
+    protected boolean iterationIsInAGivenYearAndMonth(IterationInProject iteration, int year, int month) {
 
         DateTime startDate = new DateTime(iteration.getStartDate());
         DateTime endDate = new DateTime(iteration.getCalculatedEndDate());
@@ -98,17 +102,21 @@ public class TinyPMDataCollector {
         return date.getYear() == year && date.getMonthOfYear() == month;
     }
 
-    private Collection<Activity> loadTimesheets(Collection<Iteration> iterationsInGivenMonth) {
-        List<Activity> activities = Lists.newArrayList();
+    private Collection<ActivityInIteration> loadTimesheets(Collection<IterationInProject> iterationsInGivenMonth) {
+        List<ActivityInIteration> activities = Lists.newArrayList();
 
-        for (Iteration iteration : iterationsInGivenMonth) {
-            activities.addAll(tinyPM.getTimesheetForIteration(iteration.getId()));
+        for (IterationInProject iteration : iterationsInGivenMonth) {
+            List<Activity> timesheetForIteration = tinyPM.getTimesheetForIteration(iteration.getId());
+
+            for (Activity activity : timesheetForIteration) {
+                activities.add(new ActivityInIteration(activity, iteration));
+            }
         }
 
         return filterTimesheets(activities);
     }
 
-    private Collection<Activity> filterTimesheets(Collection<Activity> activities) {
+    private Collection<ActivityInIteration> filterTimesheets(Collection<ActivityInIteration> activities) {
 
         activities = removeTimesheetsFromDifferentMonths(activities);
 
@@ -119,19 +127,19 @@ public class TinyPMDataCollector {
         }
     }
 
-    private Collection<Activity> removeTimesheetsFromOtherUsers(Collection<Activity> activities, final String user) {
-        return Collections2.filter(activities, new Predicate<Activity>() {
+    private Collection<ActivityInIteration> removeTimesheetsFromOtherUsers(Collection<ActivityInIteration> activities, final String user) {
+        return Collections2.filter(activities, new Predicate<ActivityInIteration>() {
             @Override
-            public boolean apply(Activity activity) {
+            public boolean apply(ActivityInIteration activity) {
                 return user.equals(activity.getUser().getName());
             }
         });
     }
 
-    private Collection<Activity> removeTimesheetsFromDifferentMonths(Collection<Activity> activities) {
-        activities = Collections2.filter(activities, new Predicate<Activity>() {
+    private Collection<ActivityInIteration> removeTimesheetsFromDifferentMonths(Collection<ActivityInIteration> activities) {
+        activities = Collections2.filter(activities, new Predicate<ActivityInIteration>() {
             @Override
-            public boolean apply(Activity activity) {
+            public boolean apply(ActivityInIteration activity) {
                 DateTime date = new DateTime(activity.getDate());
                 return date.getYear() == settings.getYear() && date.getMonthOfYear() == settings.getMonth();
             }

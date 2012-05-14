@@ -1,7 +1,7 @@
 package pl.softwaremill.timesheet_exporter;
 
 import com.beust.jcommander.JCommander;
-import com.google.code.tinypmclient.internal.Activity;
+import pl.softwaremill.timesheet_exporter.datacollector.ActivityInIteration;
 import pl.softwaremill.timesheet_exporter.datacollector.TinyPMDataCollector;
 import pl.softwaremill.timesheet_exporter.settings.ExporterSettings;
 import pl.softwaremill.timesheet_exporter.transform.ActivityTransformer;
@@ -15,7 +15,7 @@ public class Main {
         ExporterSettings exporterSettings = new ExporterSettings();
         new JCommander(exporterSettings, args);
 
-        Collection<Activity> activities = new TinyPMDataCollector(exporterSettings).collectData();
+        Collection<ActivityInIteration> activities = new TinyPMDataCollector(exporterSettings).collectData();
 
         new ActivityTransformer(activities).transform();
     }
