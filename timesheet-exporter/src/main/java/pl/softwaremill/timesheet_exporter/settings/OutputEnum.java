@@ -4,7 +4,7 @@ public enum OutputEnum {
 
     CONSOLE,
     PDF,
-    XLS;
+    CSV;
 
     public static OutputEnum fromString(String code) {
 

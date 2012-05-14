@@ -45,13 +45,17 @@ public class DataRow {
     }
 
 
-    public String toCSV(boolean withProjectName) {
+    public String toCSV(boolean withProjectName, boolean withUser) {
         StringBuilder builder = new StringBuilder();
 
-        builder = appendWithComma(builder, user);
+        if (withUser) {
+            builder = appendWithComma(builder, user);
+        }
+
         if (withProjectName) {
             builder = appendWithComma(builder, project);
         }
+
         builder = appendWithComma(builder, userStory);
         builder = appendWithComma(builder, task);
         builder = appendWithComma(builder, DateUtil.formatDate(date));
@@ -60,7 +64,26 @@ public class DataRow {
         return builder.toString();
     }
 
-    private StringBuilder appendWithComma(StringBuilder builder, String text) {
+    public static String getColumns(boolean withProjectName, boolean withUser) {
+        StringBuilder builder = new StringBuilder();
+
+        if (withUser) {
+            builder = appendWithComma(builder, "User");
+        }
+
+        if (withProjectName) {
+            builder = appendWithComma(builder, "Project");
+        }
+
+        builder = appendWithComma(builder, "User story");
+        builder = appendWithComma(builder, "Task");
+        builder = appendWithComma(builder, "Date");
+        builder = builder.append("Time spent");
+
+        return builder.toString();
+    }
+
+    private static StringBuilder appendWithComma(StringBuilder builder, String text) {
         return builder
                 .append(text)
                 .append(",");
