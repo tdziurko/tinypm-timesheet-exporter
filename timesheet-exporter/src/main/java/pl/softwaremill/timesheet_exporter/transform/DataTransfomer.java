@@ -15,16 +15,23 @@ public class DataTransfomer {
         this.activities = activities;
     }
 
-
     public Multimap<User, DataRow> transform() {
 
         TreeMultimap<User, DataRow> timesheets = TreeMultimap.create(new UserNameComparator(), new DataRowComparator());
 
-
         for (ActivityInIteration activity : activities) {
-//            DataRow dataRow = new DataRow(activity.getUser().getName(), )
-//            timesheets.put(activity.)
+            DataRow dataRow = new DataRow(activity.getUser().getName(), activity.getIteration().getProject().getName(),
+                    activity.getUserStory().getName(), activity.getTask().getName(), activity.getDate(), activity.getTimeSpent());
         }
+
+        Collection<DataRow> values = timesheets.values();
+
+        float sum = 0f;
+        for (DataRow row : values) {
+            System.out.println(row.getUser() + ":" + row.getTask() + ": " + row.getDate());
+            sum += row.getTimeSpent();
+        }
+        System.out.println("Sum =" + sum);
 
         return timesheets;
     }

@@ -43,4 +43,54 @@ public class DataRow {
     public float getTimeSpent() {
         return timeSpent;
     }
+
+
+    public String toCSV(boolean withProjectName) {
+        StringBuilder builder = new StringBuilder();
+
+        builder = appendWithComma(builder, user);
+        if (withProjectName) {
+            builder = appendWithComma(builder, project);
+        }
+        builder = appendWithComma(builder, userStory);
+        builder = appendWithComma(builder, task);
+        builder = appendWithComma(builder, DateUtil.formatDate(date));
+        builder = builder.append(timeSpent);
+
+        return builder.toString();
+    }
+
+    private StringBuilder appendWithComma(StringBuilder builder, String text) {
+        return builder
+                .append(text)
+                .append(",");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DataRow)) return false;
+
+        DataRow dataRow = (DataRow) o;
+
+        if (Float.compare(dataRow.timeSpent, timeSpent) != 0) return false;
+        if (date != null ? !date.equals(dataRow.date) : dataRow.date != null) return false;
+        if (project != null ? !project.equals(dataRow.project) : dataRow.project != null) return false;
+        if (task != null ? !task.equals(dataRow.task) : dataRow.task != null) return false;
+        if (user != null ? !user.equals(dataRow.user) : dataRow.user != null) return false;
+        if (userStory != null ? !userStory.equals(dataRow.userStory) : dataRow.userStory != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = user != null ? user.hashCode() : 0;
+        result = 31 * result + (project != null ? project.hashCode() : 0);
+        result = 31 * result + (userStory != null ? userStory.hashCode() : 0);
+        result = 31 * result + (task != null ? task.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (timeSpent != +0.0f ? Float.floatToIntBits(timeSpent) : 0);
+        return result;
+    }
 }
