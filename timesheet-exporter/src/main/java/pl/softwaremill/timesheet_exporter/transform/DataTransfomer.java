@@ -28,13 +28,6 @@ public class DataTransfomer {
 
         Collection<DataRow> values = timesheets.values();
 
-        float sum = 0f;
-        for (DataRow row : values) {
-            System.out.println(row.getUser() + ":" + row.getTask() + ": " + row.getDate());
-            sum += row.getTimeSpent();
-        }
-        System.out.println("Sum =" + sum);
-
         return timesheets;
     }
 }
