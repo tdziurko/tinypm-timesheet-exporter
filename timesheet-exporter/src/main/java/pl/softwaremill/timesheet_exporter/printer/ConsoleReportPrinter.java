@@ -20,7 +20,7 @@ public class ConsoleReportPrinter implements IReportPrinter {
 
         System.out.println("Timesheet Report");
         boolean printProjectName = settings.getProjectCodes().size() > 1;
-        boolean printUserName = settings.getUser() != null;
+        boolean printUserName = settings.getUser() == null;
 
         System.out.println(ToCsv.getColumns(printProjectName, printUserName));
 
@@ -29,7 +29,7 @@ public class ConsoleReportPrinter implements IReportPrinter {
         for (User user : users) {
             float sumPerUser = 0f;
 
-            for (DataRow dataRow : reportData.values()) {
+            for (DataRow dataRow : reportData.get(user)) {
                 System.out.println(ToCsv.toCSV(dataRow, printProjectName, printUserName));
                 sumPerUser += dataRow.getTimeSpent();
             }
