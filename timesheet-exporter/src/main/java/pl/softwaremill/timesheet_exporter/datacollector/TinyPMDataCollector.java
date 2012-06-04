@@ -31,7 +31,7 @@ public class TinyPMDataCollector {
 
         List<Project> projects = loadRequestedProjects(settings.getProjectCodes());
         List<IterationInProject> allIterations = loadIterationsForProjects(projects);
-        Collection<IterationInProject> iterationsInGivenMonth = filterIterationsUsingYearAndMonth(allIterations);
+        Collection<IterationInProject> iterationsInGivenMonth = filterIterations(allIterations);
 
         return loadTimesheets(iterationsInGivenMonth);
     }
@@ -81,7 +81,7 @@ public class TinyPMDataCollector {
         return allIterations;
     }
 
-    private Collection<IterationInProject> filterIterationsUsingYearAndMonth(List<IterationInProject> allIterations) {
+    private Collection<IterationInProject> filterIterations(List<IterationInProject> allIterations) {
         return Collections2.filter(allIterations, new Predicate<IterationInProject>() {
             @Override
             public boolean apply(@Nullable IterationInProject iteration) {

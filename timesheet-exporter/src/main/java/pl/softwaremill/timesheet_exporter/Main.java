@@ -20,6 +20,8 @@ public class Main {
         ExporterSettings exporterSettings = new ExporterSettings();
         new JCommander(exporterSettings, args);
 
+        exporterSettings.customValidation();
+
         Collection<ActivityInIteration> activities = new TinyPMDataCollector(exporterSettings).collectData();
 
         Multimap<User, DataRow> dataReadyToPrint = new DataTransfomer(activities).transform();
