@@ -26,8 +26,6 @@ public class DataTransfomer {
             timesheets.put(activity.getUser(), dataRow);
         }
 
-        Collection<DataRow> values = timesheets.values();
-
         return timesheets;
     }
 }

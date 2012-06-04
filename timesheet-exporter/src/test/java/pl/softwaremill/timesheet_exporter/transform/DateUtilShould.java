@@ -19,14 +19,11 @@ public class DateUtilShould {
         String dateString = DateUtil.formatDate(date);
 
         // then
-        assertThat(dateString).isEqualTo("20-12-2011");
+        assertThat(dateString).isEqualTo("2011-12-20");
     }
 
     @Test
     public void formatDateForNull() {
-
-        // given
-        Date date = new DateTime().withDate(2011, 12, 20).toDate();
 
         // when
         String dateString = DateUtil.formatDate(null);
