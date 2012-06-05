@@ -19,7 +19,7 @@ public class ConsoleReportPrinter implements IReportPrinter {
     public void printReport(Multimap<User, DataRow> reportData) {
 
         System.out.println("Timesheet Report");
-        boolean printProjectName = settings.getProjectCodes().size() > 1;
+        boolean printProjectName = settings.getProjectCodes() == null || settings.getProjectCodes().size() > 1;
         boolean printUserName = settings.getUser() == null;
 
         System.out.println(ToCsv.getColumns(printProjectName, printUserName));

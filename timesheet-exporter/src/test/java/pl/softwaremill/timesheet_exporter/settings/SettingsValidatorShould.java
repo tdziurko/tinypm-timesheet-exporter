@@ -1,6 +1,7 @@
 package pl.softwaremill.timesheet_exporter.settings;
 
 import com.beust.jcommander.ParameterException;
+import com.google.common.collect.Lists;
 import org.testng.annotations.Test;
 import pl.softwaremill.timesheet_exporter.transform.DateUtil;
 
@@ -16,7 +17,7 @@ public class SettingsValidatorShould {
         settings.setMonth(10);
 
         // when
-        settingsValidator.validate(settings);
+        settingsValidator.validateDateSettings(settings);
     }
 
     @Test
@@ -28,7 +29,7 @@ public class SettingsValidatorShould {
         settings.setDateTo(DateUtil.createDate(2012, 01, 27));
 
         // when
-        settingsValidator.validate(settings);
+        settingsValidator.validateDateSettings(settings);
     }
 
     @Test(expectedExceptions = ParameterException.class,
@@ -42,7 +43,7 @@ public class SettingsValidatorShould {
         settings.setDateTo(DateUtil.createDate(2012, 01, 27));
 
         // when
-        settingsValidator.validate(settings);
+        settingsValidator.validateDateSettings(settings);
     }
 
     @Test(expectedExceptions = ParameterException.class,
@@ -53,7 +54,7 @@ public class SettingsValidatorShould {
         ExporterSettings settings = new ExporterSettings();
 
         // when
-        settingsValidator.validate(settings);
+        settingsValidator.validateDateSettings(settings);
     }
 
     @Test(expectedExceptions = ParameterException.class,
@@ -66,7 +67,40 @@ public class SettingsValidatorShould {
         settings.setDateTo(DateUtil.createDate(2012, 01, 27));
 
         // when
-        settingsValidator.validate(settings);
+        settingsValidator.validateDateSettings(settings);
     }
+
+    @Test
+    public void passWhenProjectCodeSpecified() {
+
+        // given
+        ExporterSettings settings = new ExporterSettings();
+        settings.setProjectCodes(Lists.newArrayList("projectA"));
+
+        // when
+        settingsValidator.validateProjectAndUserSettings(settings);
+    }
+
+    @Test
+    public void passWhenUserSpecified() {
+
+        // given
+        ExporterSettings settings = new ExporterSettings();
+        settings.setUser("John Doe");
+
+        // when
+        settingsValidator.validateProjectAndUserSettings(settings);
+    }
+
+    @Test(expectedExceptions = ParameterException.class, expectedExceptionsMessageRegExp = "Either -project or -user must be provided")
+    public void failWhenNeitherProjectNorUserProvided() {
+
+        // given
+        ExporterSettings settings = new ExporterSettings();
+
+        // when
+        settingsValidator.validateProjectAndUserSettings(settings);
+    }
+
 
 }

@@ -89,4 +89,13 @@ public class ExporterSettings {
         this.dateTo = dateTo;
     }
 
+    @VisibleForTesting
+    protected void setProjectCodes(List<String> projectCodes) {
+        this.projectCodes = projectCodes;
+    }
+
+    @VisibleForTesting
+    protected void setUser(String user) {
+        this.user = user;
+    }
 }

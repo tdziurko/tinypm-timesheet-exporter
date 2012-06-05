@@ -38,6 +38,11 @@ public class TinyPMDataCollector {
     }
 
     protected List<Project> loadRequestedProjects(List<String> projectCodes) {
+
+        if (projectCodes == null) {
+            return tinyPM.getAllProjects();
+        }
+
         List<Project> projects = Lists.newArrayList();
 
         for (String code : projectCodes) {
