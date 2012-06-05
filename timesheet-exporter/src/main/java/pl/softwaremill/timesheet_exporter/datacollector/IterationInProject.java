@@ -5,7 +5,7 @@ import com.google.code.tinypmclient.Project;
 
 import java.util.Date;
 
-public class IterationInProject implements PeriodItem {
+public class IterationInProject implements ItemWithDateRange {
 
     private Iteration iteration;
     private Project project;

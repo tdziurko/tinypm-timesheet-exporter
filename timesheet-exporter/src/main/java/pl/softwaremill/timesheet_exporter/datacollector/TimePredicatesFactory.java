@@ -29,7 +29,7 @@ public class TimePredicatesFactory {
             return new Predicate<IterationInProject>() {
                 @Override
                 public boolean apply(@Nullable IterationInProject iteration) {
-                    return periodItemOverlapsGivenDateRange(iteration, settings.getDateFrom(), settings.getDateTo());
+                    return itemOverlapsGivenDateRange(iteration, settings.getDateFrom(), settings.getDateTo());
                 }
             };
         }
@@ -49,7 +49,7 @@ public class TimePredicatesFactory {
             return new Predicate<ActivityInIteration>() {
                 @Override
                 public boolean apply(@Nullable ActivityInIteration activity) {
-                    return periodItemOverlapsGivenDateRange(activity, settings.getDateFrom(), settings.getDateTo());
+                    return itemOverlapsGivenDateRange(activity, settings.getDateFrom(), settings.getDateTo());
                 }
             };
         }
@@ -67,9 +67,9 @@ public class TimePredicatesFactory {
         return date.getYear() == year && date.getMonthOfYear() == month;
     }
 
-    protected boolean periodItemOverlapsGivenDateRange(PeriodItem item, Date dateFrom, Date dateTo) {
-        DateTime startDate = new DateTime(item.getStartDate());
-        DateTime endDate = new DateTime(item.getEndDate()).withTime(23, 59, 59, 999);
+    protected boolean itemOverlapsGivenDateRange(ItemWithDateRange itemWithDateRange, Date dateFrom, Date dateTo) {
+        DateTime startDate = new DateTime(itemWithDateRange.getStartDate());
+        DateTime endDate = new DateTime(itemWithDateRange.getEndDate()).withTime(23, 59, 59, 999);
 
         Interval iterationInterval = new Interval(startDate, endDate);
 

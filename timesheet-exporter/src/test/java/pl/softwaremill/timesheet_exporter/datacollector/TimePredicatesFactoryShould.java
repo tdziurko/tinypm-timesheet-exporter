@@ -54,8 +54,8 @@ public class TimePredicatesFactoryShould {
     }
 
     @Test(dataProvider = "timePeriodsProvider")
-    public void checkIfPeriodItemIsInGivenDateRange(int iterationYear, int iterationMonth, int iterationDay, int iterationDuration,
-                                                    int yearFrom, int monthFrom, int dayFrom, int yearTo, int monthTo, int dayTo, boolean expectedResult) {
+    public void checkIfItemIsInGivenDateRange(int iterationYear, int iterationMonth, int iterationDay, int iterationDuration,
+                                              int yearFrom, int monthFrom, int dayFrom, int yearTo, int monthTo, int dayTo, boolean expectedResult) {
 
         // given
         IterationInProject iteration = new IterationInProject(new Iteration(), null);
@@ -63,7 +63,7 @@ public class TimePredicatesFactoryShould {
         iteration.setDuration(iterationDuration);
 
         // when
-        boolean result = predicatesFactory.periodItemOverlapsGivenDateRange(iteration,
+        boolean result = predicatesFactory.itemOverlapsGivenDateRange(iteration,
                 DateUtil.createDate(yearFrom, monthFrom, dayFrom), DateUtil.createDate(yearTo, monthTo, dayTo));
 
         // then

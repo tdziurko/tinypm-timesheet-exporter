@@ -14,7 +14,7 @@ public class ExporterSettings {
     @Parameter(names = "-token", description = "Authentication token", required = true)
     private String authenticationToken;
 
-    @Parameter(names = "-project", description = "Codes of projects to be included in timesheet report", required = true)
+    @Parameter(names = "-project", description = "Codes of projects to be included in timesheet report")
     private List<String> projectCodes;
 
     @Parameter(names = "-year", description = "Year of timesheet", required = true)
