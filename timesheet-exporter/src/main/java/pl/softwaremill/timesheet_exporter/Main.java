@@ -8,6 +8,7 @@ import pl.softwaremill.timesheet_exporter.datacollector.TinyPMDataCollector;
 import pl.softwaremill.timesheet_exporter.printer.IReportPrinter;
 import pl.softwaremill.timesheet_exporter.printer.PrinterFactory;
 import pl.softwaremill.timesheet_exporter.settings.ExporterSettings;
+import pl.softwaremill.timesheet_exporter.settings.SettingsValidator;
 import pl.softwaremill.timesheet_exporter.transform.DataRow;
 import pl.softwaremill.timesheet_exporter.transform.DataTransfomer;
 
@@ -20,7 +21,7 @@ public class Main {
         ExporterSettings exporterSettings = new ExporterSettings();
         new JCommander(exporterSettings, args);
 
-        exporterSettings.customValidation();
+        new SettingsValidator().validate(exporterSettings);
 
         Collection<ActivityInIteration> activities = new TinyPMDataCollector(exporterSettings).collectData();
 

@@ -4,7 +4,9 @@ import com.beust.jcommander.ParameterException;
 import org.testng.annotations.Test;
 import pl.softwaremill.timesheet_exporter.transform.DateUtil;
 
-public class ExporterSettingsShould {
+public class SettingsValidatorShould {
+
+    SettingsValidator settingsValidator = new SettingsValidator();
 
     @Test
     public void passValidationWithMonthSpecified() {
@@ -14,7 +16,7 @@ public class ExporterSettingsShould {
         settings.setMonth(10);
 
         // when
-        settings.customValidation();
+        settingsValidator.validate(settings);
     }
 
     @Test
@@ -26,7 +28,7 @@ public class ExporterSettingsShould {
         settings.setDateTo(DateUtil.createDate(2012, 01, 27));
 
         // when
-        settings.customValidation();
+        settingsValidator.validate(settings);
     }
 
     @Test(expectedExceptions = ParameterException.class,
@@ -40,7 +42,7 @@ public class ExporterSettingsShould {
         settings.setDateTo(DateUtil.createDate(2012, 01, 27));
 
         // when
-        settings.customValidation();
+        settingsValidator.validate(settings);
     }
 
     @Test(expectedExceptions = ParameterException.class,
@@ -51,7 +53,7 @@ public class ExporterSettingsShould {
         ExporterSettings settings = new ExporterSettings();
 
         // when
-        settings.customValidation();
+        settingsValidator.validate(settings);
     }
 
     @Test(expectedExceptions = ParameterException.class,
@@ -64,8 +66,7 @@ public class ExporterSettingsShould {
         settings.setDateTo(DateUtil.createDate(2012, 01, 27));
 
         // when
-        settings.customValidation();
+        settingsValidator.validate(settings);
     }
-
 
 }

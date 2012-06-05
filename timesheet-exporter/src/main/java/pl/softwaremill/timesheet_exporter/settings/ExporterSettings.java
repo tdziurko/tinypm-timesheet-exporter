@@ -1,7 +1,6 @@
 package pl.softwaremill.timesheet_exporter.settings;
 
 import com.beust.jcommander.Parameter;
-import com.beust.jcommander.ParameterException;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.Date;
@@ -90,26 +89,4 @@ public class ExporterSettings {
         this.dateTo = dateTo;
     }
 
-    public void customValidation() {
-        validateDateSettings();
-    }
-
-    private void validateDateSettings() {
-        if (month == null && dateFrom == null && dateTo == null) {
-            throw new ParameterException("Either -month or pair -dateFrom and -dateTo must be provided");
-        }
-
-        if (month != null && dateFrom != null && dateTo != null) {
-            throw new ParameterException("Either -month or pair -dateFrom and -dateTo must be provided");
-        }
-
-        if (month == null && (dateFrom != null && dateFrom != null) == false) {
-            throw new ParameterException("Both parameters -dateFrom and -dateTo must be provided");
-        }
-
-        if (month == null && dateFrom.after(dateTo)) {
-            throw new ParameterException("Value of -dateTo can not be before -dateFrom");
-        }
-
-    }
 }
