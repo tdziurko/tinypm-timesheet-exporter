@@ -5,7 +5,7 @@ import com.google.code.tinypmclient.Project;
 
 import java.util.Date;
 
-public class IterationInProject {
+public class IterationInProject implements PeriodItem {
 
     private Iteration iteration;
     private Project project;
@@ -13,10 +13,6 @@ public class IterationInProject {
     public IterationInProject(Iteration iteration, Project project) {
         this.iteration = iteration;
         this.project = project;
-    }
-
-    public Date getCalculatedEndDate() {
-        return iteration.getCalculatedEndDate();
     }
 
     public int getId() {
@@ -77,5 +73,10 @@ public class IterationInProject {
 
     public Project getProject() {
         return project;
+    }
+
+    @Override
+    public Date getEndDate() {
+        return iteration.getCalculatedEndDate();
     }
 }

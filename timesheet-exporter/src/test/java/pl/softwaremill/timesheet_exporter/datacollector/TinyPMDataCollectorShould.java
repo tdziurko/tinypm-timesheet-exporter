@@ -1,12 +1,8 @@
 package pl.softwaremill.timesheet_exporter.datacollector;
 
-import com.google.code.tinypmclient.Iteration;
 import com.google.code.tinypmclient.Project;
 import com.google.code.tinypmclient.TinyPM;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pl.softwaremill.timesheet_exporter.settings.ExporterSettings;
 
@@ -28,46 +24,6 @@ public class TinyPMDataCollectorShould {
 
         dataCollector = new TinyPMDataCollector(new ExporterSettings());
         dataCollector.tinyPM = tinyPmMock;
-    }
-
-    @Test(dataProvider = "dateRangesProvider")
-    public void checkIfIterationIsInGivenMonth(int startYear, int startMonth, int endyear, int endMonth, int yearToCheck, int monthToCheck, boolean expectedResult) {
-        // given
-        IterationInProject iteration = prepareIterationInMonths(startYear, startMonth, endyear, endMonth);
-
-        // when
-        boolean result = dataCollector.iterationIsInAGivenYearAndMonth(iteration, yearToCheck, monthToCheck);
-
-        // then
-        assertThat(result).isEqualTo(expectedResult);
-    }
-
-    @DataProvider(name = "dateRangesProvider")
-    public Object[][] provideData() {
-        return new Object[][]{
-                {2012, 1, 2012, 1, 2012, 1, true},
-                {2012, 1, 2012, 10, 2012, 10, true},
-                {2012, 1, 2012, 10, 2012, 11, false},
-                {2012, 5, 2012, 5, 2012, 5, true},
-                {2012, 5, 2012, 5, 2012, 6, false},
-                {2012, 1, 2012, 12, 2012, 12, true},
-                {2012, 1, 2012, 12, 2012, 12, true},
-                {2012, 1, 2013, 11, 2013, 12, false},
-                {2012, 2, 2012, 12, 2012, 1, false},
-        };
-    }
-
-    private IterationInProject prepareIterationInMonths(int startYear, int startMonth, int endYear, int endMonth) {
-
-        DateTime startDate = new DateTime().withDate(startYear, startMonth, 1);
-        DateTime endDate = new DateTime().withDate(endYear, endMonth, 1);
-
-        int duration = Days.daysBetween(startDate, endDate).getDays();
-        IterationInProject iteration = new IterationInProject(new Iteration(), null);
-        iteration.setStartDate(startDate.toDate());
-        iteration.setDuration(duration + 1);
-
-        return iteration;
     }
 
     @Test

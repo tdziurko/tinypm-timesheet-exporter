@@ -67,6 +67,14 @@ public class ExporterSettings {
         return output;
     }
 
+    public Date getDateFrom() {
+        return dateFrom;
+    }
+
+    public Date getDateTo() {
+        return dateTo;
+    }
+
     @VisibleForTesting
     protected void setMonth(Integer month) {
         this.month = month;

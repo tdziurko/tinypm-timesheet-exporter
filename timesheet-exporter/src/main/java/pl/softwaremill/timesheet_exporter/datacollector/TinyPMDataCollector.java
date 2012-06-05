@@ -9,7 +9,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
-import org.joda.time.DateTime;
 import pl.softwaremill.timesheet_exporter.settings.ExporterSettings;
 
 import javax.annotation.Nullable;
@@ -20,11 +19,13 @@ public class TinyPMDataCollector {
 
     protected TinyPM tinyPM;
     private ExporterSettings settings;
+    private TimePredicatesFactory timePredicatesFactory;
 
     public TinyPMDataCollector(ExporterSettings settings) {
 
         this.settings = settings;
         tinyPM = new TinyPM(settings.getTinypmUrl(), settings.getAuthenticationToken());
+        timePredicatesFactory = new TimePredicatesFactory(settings);
     }
 
     public Collection<ActivityInIteration> collectData() {
@@ -33,7 +34,7 @@ public class TinyPMDataCollector {
         List<IterationInProject> allIterations = loadIterationsForProjects(projects);
         Collection<IterationInProject> iterationsInGivenMonth = filterIterations(allIterations);
 
-        return loadTimesheets(iterationsInGivenMonth);
+        return loadFilteredTasks(iterationsInGivenMonth);
     }
 
     protected List<Project> loadRequestedProjects(List<String> projectCodes) {
@@ -82,27 +83,10 @@ public class TinyPMDataCollector {
     }
 
     private Collection<IterationInProject> filterIterations(List<IterationInProject> allIterations) {
-        return Collections2.filter(allIterations, new Predicate<IterationInProject>() {
-            @Override
-            public boolean apply(@Nullable IterationInProject iteration) {
-                return iterationIsInAGivenYearAndMonth(iteration, settings.getYear(), settings.getMonth());
-            }
-        });
+        return Collections2.filter(allIterations, timePredicatesFactory.forIteration());
     }
 
-    protected boolean iterationIsInAGivenYearAndMonth(IterationInProject iteration, int year, int month) {
-
-        DateTime startDate = new DateTime(iteration.getStartDate());
-        DateTime endDate = new DateTime(iteration.getCalculatedEndDate());
-
-        return dateIsInGivenYearAndMonth(year, month, startDate) || dateIsInGivenYearAndMonth(year, month, endDate);
-    }
-
-    private boolean dateIsInGivenYearAndMonth(int year, int month, DateTime date) {
-        return date.getYear() == year && date.getMonthOfYear() == month;
-    }
-
-    private Collection<ActivityInIteration> loadTimesheets(Collection<IterationInProject> iterationsInGivenMonth) {
+    private Collection<ActivityInIteration> loadFilteredTasks(Collection<IterationInProject> iterationsInGivenMonth) {
         List<ActivityInIteration> activities = Lists.newArrayList();
 
         for (IterationInProject iteration : iterationsInGivenMonth) {
@@ -113,21 +97,21 @@ public class TinyPMDataCollector {
             }
         }
 
-        return filterTimesheets(activities);
+        return filterTasks(activities);
     }
 
-    private Collection<ActivityInIteration> filterTimesheets(Collection<ActivityInIteration> activities) {
+    private Collection<ActivityInIteration> filterTasks(Collection<ActivityInIteration> activities) {
 
-        activities = removeTimesheetsFromDifferentMonths(activities);
+        activities = removeTasksBasingOnDate(activities);
 
         if (settings.getUser() != null) {
-            return removeTimesheetsFromOtherUsers(activities, settings.getUser());
+            return removeTasksFromOtherUsers(activities, settings.getUser());
         } else {
             return activities;
         }
     }
 
-    private Collection<ActivityInIteration> removeTimesheetsFromOtherUsers(Collection<ActivityInIteration> activities, final String user) {
+    private Collection<ActivityInIteration> removeTasksFromOtherUsers(Collection<ActivityInIteration> activities, final String user) {
         return Collections2.filter(activities, new Predicate<ActivityInIteration>() {
             @Override
             public boolean apply(ActivityInIteration activity) {
@@ -136,14 +120,8 @@ public class TinyPMDataCollector {
         });
     }
 
-    private Collection<ActivityInIteration> removeTimesheetsFromDifferentMonths(Collection<ActivityInIteration> activities) {
-        activities = Collections2.filter(activities, new Predicate<ActivityInIteration>() {
-            @Override
-            public boolean apply(ActivityInIteration activity) {
-                DateTime date = new DateTime(activity.getDate());
-                return date.getYear() == settings.getYear() && date.getMonthOfYear() == settings.getMonth();
-            }
-        });
+    private Collection<ActivityInIteration> removeTasksBasingOnDate(Collection<ActivityInIteration> activities) {
+        activities = Collections2.filter(activities, timePredicatesFactory.forTask());
         return activities;
     }
 

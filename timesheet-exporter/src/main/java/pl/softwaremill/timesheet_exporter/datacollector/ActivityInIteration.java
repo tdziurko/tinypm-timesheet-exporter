@@ -7,7 +7,7 @@ import com.google.code.tinypmclient.internal.Activity;
 
 import java.util.Date;
 
-public class ActivityInIteration {
+public class ActivityInIteration implements PeriodItem {
 
     private Activity activity;
     private IterationInProject iteration;
@@ -59,5 +59,15 @@ public class ActivityInIteration {
 
     public IterationInProject getIteration() {
         return iteration;
+    }
+
+    @Override
+    public Date getStartDate() {
+        return getDate();
+    }
+
+    @Override
+    public Date getEndDate() {
+        return getDate();
     }
 }
