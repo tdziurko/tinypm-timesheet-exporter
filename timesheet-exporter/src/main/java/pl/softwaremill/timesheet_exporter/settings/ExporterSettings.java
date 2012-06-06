@@ -17,7 +17,7 @@ public class ExporterSettings {
     @Parameter(names = "-project", description = "Codes of projects to be included in timesheet report")
     private List<String> projectCodes;
 
-    @Parameter(names = "-year", description = "Year of timesheet", required = true)
+    @Parameter(names = "-year", description = "Year of timesheet")
     private Integer year;
 
     @Parameter(names = "-month", description = "Number of month (1-12) for timesheet", validateWith = MonthValidator.class)
@@ -77,6 +77,11 @@ public class ExporterSettings {
     @VisibleForTesting
     protected void setMonth(Integer month) {
         this.month = month;
+    }
+
+    @VisibleForTesting
+    protected void setYear(Integer year) {
+        this.year = year;
     }
 
     @VisibleForTesting

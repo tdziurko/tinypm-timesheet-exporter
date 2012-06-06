@@ -10,7 +10,20 @@ public class SettingsValidatorShould {
     SettingsValidator settingsValidator = new SettingsValidator();
 
     @Test
-    public void passValidationWithMonthSpecified() {
+    public void passValidationWithMonthAndYearSpecified() {
+
+        // given
+        ExporterSettings settings = new ExporterSettings();
+        settings.setMonth(10);
+        settings.setYear(2010);
+
+        // when
+        settingsValidator.validateDateSettings(settings);
+    }
+
+    @Test(expectedExceptions = ParameterException.class,
+            expectedExceptionsMessageRegExp = "Both parameters -year and -month must be provided")
+    public void failValidationWithOnlyYearSpecified() {
 
         // given
         ExporterSettings settings = new ExporterSettings();
@@ -33,7 +46,7 @@ public class SettingsValidatorShould {
     }
 
     @Test(expectedExceptions = ParameterException.class,
-            expectedExceptionsMessageRegExp = "Either -month or pair -dateFrom and -dateTo must be provided")
+            expectedExceptionsMessageRegExp = "For pair -dateFrom and -dateTo parameters -year and -month are prohibited")
     public void throwExceptionWhenMonthAndDatesProvided() {
 
         // given
@@ -47,7 +60,35 @@ public class SettingsValidatorShould {
     }
 
     @Test(expectedExceptions = ParameterException.class,
-            expectedExceptionsMessageRegExp = "Either -month or pair -dateFrom and -dateTo must be provided")
+            expectedExceptionsMessageRegExp = "For pair -dateFrom and -dateTo parameters -year and -month are prohibited")
+    public void throwExceptionWhenYearAndDatesProvided() {
+
+        // given
+        ExporterSettings settings = new ExporterSettings();
+        settings.setYear(2012);
+        settings.setDateFrom(DateUtil.createDate(2012, 01, 10));
+        settings.setDateTo(DateUtil.createDate(2012, 01, 27));
+
+        // when
+        settingsValidator.validateDateSettings(settings);
+    }
+
+    @Test(expectedExceptions = ParameterException.class,
+            expectedExceptionsMessageRegExp = "For pair -year and -month parameters -dateFrom and -dateTo are prohibited")
+    public void throwExceptionWhenYearAndMonthAndDateIsProvided() {
+
+        // given
+        ExporterSettings settings = new ExporterSettings();
+        settings.setYear(2012);
+        settings.setMonth(12);
+        settings.setDateFrom(DateUtil.createDate(2012, 01, 10));
+
+        // when
+        settingsValidator.validateDateSettings(settings);
+    }
+
+    @Test(expectedExceptions = ParameterException.class,
+            expectedExceptionsMessageRegExp = "Either pair -year and -month or pair -dateFrom and -dateTo must be provided")
     public void throwExceptionWhenNoDateSettingsProvided() {
 
         // given

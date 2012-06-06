@@ -12,19 +12,27 @@ public class SettingsValidator {
 
     @VisibleForTesting
     protected void validateDateSettings(ExporterSettings settings) {
-        if (settings.getMonth() == null && settings.getDateFrom() == null && settings.getDateTo() == null) {
-            throw new ParameterException("Either -month or pair -dateFrom and -dateTo must be provided");
+        if (settings.getYear() == null && settings.getMonth() == null && settings.getDateFrom() == null && settings.getDateTo() == null) {
+            throw new ParameterException("Either pair -year and -month or pair -dateFrom and -dateTo must be provided");
         }
 
-        if (settings.getMonth() != null && settings.getDateFrom() != null && settings.getDateTo() != null) {
-            throw new ParameterException("Either -month or pair -dateFrom and -dateTo must be provided");
+        if ((settings.getYear() != null || settings.getMonth() != null) && (settings.getDateFrom() != null && settings.getDateTo() != null)) {
+            throw new ParameterException("For pair -dateFrom and -dateTo parameters -year and -month are prohibited");
         }
 
-        if (settings.getMonth() == null && (settings.getDateFrom() != null && settings.getDateFrom() != null) == false) {
+        if ((settings.getYear() != null && settings.getMonth() != null) && (settings.getDateFrom() != null || settings.getDateTo() != null)) {
+            throw new ParameterException("For pair -year and -month parameters -dateFrom and -dateTo are prohibited");
+        }
+
+        if (settings.getYear() == null && settings.getMonth() == null && (settings.getDateFrom() != null && settings.getDateFrom() != null) == false) {
             throw new ParameterException("Both parameters -dateFrom and -dateTo must be provided");
         }
 
-        if (settings.getMonth() == null && settings.getDateFrom().after(settings.getDateTo())) {
+        if (settings.getDateFrom() == null && settings.getDateFrom() == null && (settings.getYear() != null && settings.getMonth() != null) == false) {
+            throw new ParameterException("Both parameters -year and -month must be provided");
+        }
+
+        if (settings.getYear() == null && settings.getMonth() == null && settings.getDateFrom().after(settings.getDateTo())) {
             throw new ParameterException("Value of -dateTo can not be before -dateFrom");
         }
     }
