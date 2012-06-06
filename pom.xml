@@ -97,7 +97,6 @@
             <name>jboss-public-repository-group</name>
             <url>http://repository.jboss.org/nexus/content/groups/public/</url>
         </repository>
-
     </repositories>
 
 </project>
