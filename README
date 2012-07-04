@@ -1,1 +1,7 @@
 Timesheet exporter from TinyPM
+
+Generates csv timesheet report about given projects or developers in a selected mmonth or date range.
+
+This version is NOT maintaned here anymore. Projec was forked and all development now takes place at https://github.com/softwaremill/tinypm-timesheet-exporter/ (my company GitHub account).
+
+More information about usage and so on can be also found there: https://github.com/softwaremill/tinypm-timesheet-exporter/blob/master/README.mediawiki
